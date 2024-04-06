@@ -5,7 +5,8 @@ import Textbox from "../Textbox";
 import Button from "../Button";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { setSubTask } from "../../redux/slices/taskSlice";
+// import { setSubTask } from "../../redux/slices/taskSlice";
+import { setReloadTask } from "../../redux/slices/taskSlice";
 import axios from "axios";
 
 const AddSubTask = ({ open, setOpen, id }) => {
@@ -39,10 +40,10 @@ const AddSubTask = ({ open, setOpen, id }) => {
         },
         config
       );
-      dispatch(setSubTask({ taskId: id, subTask: { title, date, tag } }));
+      dispatch(setReloadTask());
       toast.success(response.data.message);
-
       reset();
+      setOpen(false);
     } catch (error) {
       // toast.error(error.response.data.message);
       console.error("Error fetching data:", error);

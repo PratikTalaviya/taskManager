@@ -107,9 +107,17 @@ export const dashboardStatistics = async (req, res) => {
 
 export const getTasks = async (req, res) => {
   try {
+    const { userId } = req.user;
+
     const { stage, isTrashed } = req.query;
 
-    let query = { isTrashed: isTrashed ? true : false };
+    let query = { userId }; // Add userId to the query
+
+    if (isTrashed) {
+      query.isTrashed = true;
+    } else {
+      query.isTrashed = false; // Not necessary since false is the default value
+    }
 
     if (stage) {
       query.stage = stage;

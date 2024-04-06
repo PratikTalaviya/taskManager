@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import Button from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../redux/slices/authSlice";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const Login = () => {
@@ -30,12 +30,11 @@ const Login = () => {
         password,
       });
       const userData = response.data;
-      dispatch(setCredentials(userData.user)); // Dispatch the login action
+      dispatch(setCredentials(userData.user));
       reset();
       navigate("/dashboard");
     } catch (error) {
       toast.error(error.response.data.message);
-      console.error("Login failed:", error.response.data);
     }
   };
   const registerHandler = async (data) => {

@@ -2,6 +2,7 @@ import React from "react";
 import { MdDashboard, MdOutlineAddTask, MdOutlinePendingActions, MdSettings, MdTaskAlt } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { SlNote } from "react-icons/sl";
 import { FaTasks, FaTrashAlt, FaUsers } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -13,6 +14,11 @@ const linkData = [
     label: "Dashboard",
     link: "dashboard",
     icon: <MdDashboard />,
+  },
+  {
+    label: "Notes",
+    link: "note",
+    icon: <SlNote />,
   },
   {
     label: "Tasks",
@@ -33,11 +39,6 @@ const linkData = [
     label: "To Do",
     link: "todo/todo",
     icon: <MdOutlinePendingActions />,
-  },
-  {
-    label: "Notes",
-    link: "note",
-    icon: <FaUsers />,
   },
   {
     label: "Trash",
@@ -83,9 +84,6 @@ const Sidebar = () => {
   return (
     <div className="w-full  h-full flex flex-col gap-6 p-5">
       <h1 className="flex gap-1 items-center justify-center">
-        {/* <p className="bg-blue-600 p-2 rounded-full">
-          <MdOutlineAddTask className="text-white text-2xl font-black" />
-        </p> */}
         <span className="text-4xl font-bold text-black">TaskHub</span>
       </h1>
 

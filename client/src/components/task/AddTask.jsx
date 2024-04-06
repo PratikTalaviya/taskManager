@@ -10,13 +10,13 @@ import { BiImages } from "react-icons/bi";
 import Button from "../Button";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { setTask } from "../../redux/slices/taskSlice";
+import { setReloadTask } from "../../redux/slices/taskSlice";
 
 const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
 const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
 
-const AddTask = ({ open, setOpen }) => {
-  const task = "";
+const AddTask = ({ open, setOpen, task }) => {
+  // let task = task;
   const { user } = useSelector((state) => state.auth);
   const token = user.token;
   const dispatch = useDispatch();
@@ -30,14 +30,15 @@ const AddTask = ({ open, setOpen }) => {
   const [stage, setStage] = useState(task?.stage?.toUpperCase() || LISTS[0]);
   const [priority, setPriority] = useState(task?.priority?.toUpperCase() || PRIORIRY[2]);
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+    },
+  };
+
   const submitHandler = async (data) => {
     const { title, date } = data;
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`, // Set the Authorization header with the token
-        },
-      };
       const response = await axios.post(
         "http://localhost:5000/api/task/create",
         {
@@ -49,9 +50,33 @@ const AddTask = ({ open, setOpen }) => {
         },
         config
       );
-      dispatch(setTask(response.data.task));
+      dispatch(setReloadTask());
       toast.success(response.data.message);
       reset();
+      setOpen(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const upadateHandler = async (data) => {
+    const { title, date } = data;
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/task/update/${task._id}`,
+        {
+          title,
+          date,
+          stage,
+          priority,
+        },
+        config
+      );
+      dispatch(setReloadTask());
+      toast.success(response.data.message);
+      reset();
+      setOpen(false);
     } catch (error) {
       toast.error(error.response.data.message);
       console.error("Error fetching data:", error);
@@ -61,7 +86,7 @@ const AddTask = ({ open, setOpen }) => {
   return (
     <>
       <ModalWrapper open={open} setOpen={setOpen}>
-        <form className="p-5 pr-9" onSubmit={handleSubmit(submitHandler)}>
+        <form className="p-5 pr-9" onSubmit={handleSubmit(task ? upadateHandler : submitHandler)}>
           <Dialog.Title as="h2" className="text-base font-bold leading-6 text-gray-900 mb-4">
             {task ? "UPDATE TASK" : "ADD TASK"}
           </Dialog.Title>
@@ -103,7 +128,6 @@ const AddTask = ({ open, setOpen }) => {
                   label="Submit"
                   type="submit"
                   className="bg-blue-600 px-8 text-sm font-semibold rounded-xl text-white hover:bg-blue-700 sm:w-auto"
-                  onClick={() => setOpen(false)}
                 />
 
                 <Button

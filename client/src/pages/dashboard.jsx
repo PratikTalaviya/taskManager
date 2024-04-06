@@ -4,6 +4,7 @@ import { LuClipboardEdit } from "react-icons/lu";
 import { FaNewspaper, FaUsers } from "react-icons/fa";
 import { FaArrowsToDot } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import { BsDash } from "react-icons/bs";
 import { setTasks } from "../redux/slices/taskSlice";
 import moment from "moment";
 import clsx from "clsx";
@@ -15,6 +16,7 @@ const TaskTable = ({ tasks }) => {
   const ICONS = {
     high: <MdKeyboardDoubleArrowUp />,
     medium: <MdKeyboardArrowUp />,
+    normal: <BsDash />,
     low: <MdKeyboardArrowDown />,
   };
 
@@ -23,7 +25,8 @@ const TaskTable = ({ tasks }) => {
       <tr className="text-black text-left">
         <th className="py-2">Task Title</th>
         <th className="py-2">Priority</th>
-        <th className="py-2 hidden md:block">Created At</th>
+        <th className="py-2">Created At</th>
+        <th className="py-2 ">Deadline</th>
       </tr>
     </thead>
   );
@@ -45,7 +48,11 @@ const TaskTable = ({ tasks }) => {
         </div>
       </td>
 
-      <td className="py-2 hidden md:block">
+      <td className="py-2">
+        <span className="text-base text-gray-600">{moment(task?.createdAt).fromNow()}</span>
+      </td>
+
+      <td className="py-2">
         <span className="text-base text-gray-600">{moment(task?.date).fromNow()}</span>
       </td>
     </tr>
@@ -53,14 +60,16 @@ const TaskTable = ({ tasks }) => {
   return (
     <>
       <div className="w-full bg-white md:px-4 pt-4 pb-4 shadow-md rounded">
-        <table className="w-full">
-          <TableHeader />
-          <tbody>
-            {tasks?.map((task, id) => (
-              <TableRow key={id} task={task} />
-            ))}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto p-2">
+          <table className="w-full ">
+            <TableHeader />
+            <tbody>
+              {tasks?.map((task, id) => (
+                <TableRow key={id} task={task} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
@@ -74,39 +83,27 @@ const Dashboard = () => {
     last10Task: [],
     tasks: {},
     graphData: [],
-  }); // Initialize state for summary data
+  });
 
   const { user } = useSelector((state) => state.auth);
   const token = user.token;
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+        Authorization: `Bearer ${token}`,
       },
     };
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/task/dashboard", config); // Replace "/api/summary" with your actual API endpoint
-        setData(response.data); // Update summary state with fetched data
+        const response = await axios.get("http://localhost:5000/api/task/dashboard", config);
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    const fetchTask = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/task/", config);
-        dispatch(setTasks(response.data.tasks));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchData();
-    fetchTask();
   }, []);
-
 
   const totals = data.tasks;
   const stats = [

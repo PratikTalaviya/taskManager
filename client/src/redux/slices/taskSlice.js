@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userTasks: [],
+  trashedTasks: [],
+  reloadTask: false,
+  reloadTrash: false,
 };
 
 const taskSlice = createSlice({
@@ -20,11 +23,19 @@ const taskSlice = createSlice({
       if (taskIndex !== -1) {
         state.userTasks[taskIndex].subTasks.push(subTask);
       }
-      console.log(state.userTasks[taskIndex]);
+    },
+    setTrashedTasks: (state, action) => {
+      state.trashedTasks = action.payload;
+    },
+    setReloadTask: (state) => {
+      state.reloadTask = !state.reloadTask;
+    },
+    setReloadTrash: (state) => {
+      state.reloadTrash = !state.reloadTrash;
     },
   },
 });
 
-export const { setTasks, setTask, setSubTask } = taskSlice.actions;
+export const { setTasks, setTask, setSubTask, setTrashedTasks, setReloadTask, setReloadTrash } = taskSlice.actions;
 
 export default taskSlice.reducer;

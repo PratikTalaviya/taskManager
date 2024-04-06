@@ -4,15 +4,21 @@ import { MdAttachFile, MdKeyboardArrowDown, MdKeyboardArrowUp, MdKeyboardDoubleA
 import { toast } from "sonner";
 import { BGS, PRIOTITYSTYELS, TASK_TYPE, formatDate } from "../../utils";
 import clsx from "clsx";
+import { BsDash } from "react-icons/bs";
 import { FaList } from "react-icons/fa";
 import UserInfo from "../UserInfo";
 import Button from "../Button";
 import ConfirmatioDialog from "../Dialogs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setReloadTask } from "../../redux/slices/taskSlice";
+import axios from "axios";
+import AddTask from "./AddTask";
+import ViewTask from "./ViewTask";
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
+  normal: <BsDash />,
   low: <MdKeyboardArrowDown />,
 };
 
@@ -20,13 +26,37 @@ const Table = () => {
   const { userTasks } = useSelector((state) => state.task);
   const [openDialog, setOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [selectedTask, setSelectedTask] = useState({});
+  const [open, setOpen] = useState(false);
+  const [openTask, setOpenTask] = useState(false);
+  const dispatch = useDispatch();
 
   const deleteClicks = (id) => {
     setSelected(id);
     setOpenDialog(true);
   };
 
-  const deleteHandler = () => {};
+  const editClicks = (task) => {
+    setSelectedTask(task);
+    setOpen(true);
+  };
+
+  const taskOpen = (task) => {
+    setSelectedTask(task);
+    setOpenTask(true);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      console.log("deleted");
+      const response = await axios.put(`http://localhost:5000/api/task/${selected}`);
+      toast.success(response.data.message);
+      setOpenDialog(false);
+      dispatch(setReloadTask());
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   const TableHeader = () => (
     <thead className="w-full border-b border-gray-300">
@@ -34,14 +64,14 @@ const Table = () => {
         <th className="py-2">Task Title</th>
         <th className="py-2">Priority</th>
         <th className="py-2 line-clamp-1">Created At</th>
+        <th className="py-2">Deadline</th>
         <th className="py-2 pl-3">Sub Tasks</th>
-        {/* <th className="py-2">Team</th> */}
       </tr>
     </thead>
   );
 
   const TableRow = ({ task }) => (
-    <tr className="border-b border-gray-200 text-gray-600 hover:bg-gray-300/10">
+    <tr className="border-b border-gray-200 text-gray-600 hover:bg-gray-300/10" onClick={() => taskOpen(task)}>
       <td className="py-2">
         <div className="flex items-center gap-2">
           <div className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])} />
@@ -56,6 +86,9 @@ const Table = () => {
         </div>
       </td>
 
+      <td className="py-2">
+        <span className="text-sm text-gray-600">{formatDate(new Date(task?.createdAt))}</span>
+      </td>
       <td className="py-2">
         <span className="text-sm text-gray-600">{formatDate(new Date(task?.date))}</span>
       </td>
@@ -94,7 +127,12 @@ const Table = () => {
       </td> */}
 
       <td className="py-2 flex gap-2 md:gap-4 justify-end">
-        <Button className="text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base" label="Edit" type="button" />
+        <Button
+          className="text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base"
+          label="Edit"
+          type="button"
+          onClick={() => editClicks(task)}
+        />
 
         <Button
           className="text-red-700 hover:text-red-500 sm:px-0 text-sm md:text-base"
@@ -120,7 +158,10 @@ const Table = () => {
         </div>
       </div>
 
-      {/* TODO */}
+      <ViewTask open={openTask} setOpen={setOpenTask} task={selectedTask} />
+
+      <AddTask open={open} setOpen={setOpen} task={selectedTask} key={new Date().getTime()} />
+
       <ConfirmatioDialog open={openDialog} setOpen={setOpenDialog} onClick={deleteHandler} />
     </>
   );
