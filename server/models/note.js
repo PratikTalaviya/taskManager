@@ -15,6 +15,11 @@ const noteSchema = new Schema(
       type: String,
       required: true,
     },
+    tag: {
+      type: String,
+      default: "Personal",
+      enum: ["Personal", "Work", "Study", "Other"],
+    },
   },
   { timestamps: true }
 );

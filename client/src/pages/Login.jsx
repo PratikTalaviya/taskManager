@@ -50,9 +50,10 @@ const Login = () => {
 
       Cookies.set("token", token, { expires: 1 });
       reset();
-      console.log("submit");
+      toast.success(response.data.message);
+      setRegistered(true);
     } catch (error) {
-      console.error("Login failed:", error.message);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -159,6 +160,10 @@ const Login = () => {
                   className="w-full rounded-full"
                   register={register("email", {
                     required: "Email Address is required!",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email address format",
+                    },
                   })}
                   error={errors.email ? errors.email.message : ""}
                 />
@@ -170,6 +175,11 @@ const Login = () => {
                   className="w-full rounded-full"
                   register={register("password", {
                     required: "Password is required!",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters long",
+                    },
+                    // Add other password validation rules as needed
                   })}
                   error={errors.password ? errors.password.message : ""}
                 />

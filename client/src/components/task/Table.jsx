@@ -131,14 +131,20 @@ const Table = () => {
           className="text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base"
           label="Edit"
           type="button"
-          onClick={() => editClicks(task)}
+          onClick={(e) => {
+            e.stopPropagation();
+            editClicks(task);
+          }}
         />
 
         <Button
           className="text-red-700 hover:text-red-500 sm:px-0 text-sm md:text-base"
           label="Delete"
           type="button"
-          onClick={() => deleteClicks(task._id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteClicks(task._id);
+          }}
         />
       </td>
     </tr>

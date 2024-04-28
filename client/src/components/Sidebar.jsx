@@ -17,7 +17,7 @@ const linkData = [
   },
   {
     label: "Notes",
-    link: "note",
+    link: "notes",
     icon: <SlNote />,
   },
   {
