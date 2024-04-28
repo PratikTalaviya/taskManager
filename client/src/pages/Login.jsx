@@ -45,7 +45,6 @@ const Login = () => {
         email,
         password,
       });
-      const userData = response.data;
       const token = response.data.token;
 
       Cookies.set("token", token, { expires: 1 });

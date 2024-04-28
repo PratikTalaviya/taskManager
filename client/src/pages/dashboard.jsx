@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { MdAdminPanelSettings, MdKeyboardArrowDown, MdKeyboardArrowUp, MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { LuClipboardEdit } from "react-icons/lu";
-import { FaNewspaper, FaUsers } from "react-icons/fa";
+import { FaNewspaper } from "react-icons/fa";
 import { FaArrowsToDot } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BsDash } from "react-icons/bs";
-import { setTasks } from "../redux/slices/taskSlice";
 import moment from "moment";
 import clsx from "clsx";
 import { Chart } from "../components/Chart";
