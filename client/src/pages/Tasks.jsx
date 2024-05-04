@@ -46,7 +46,11 @@ const Tasks = () => {
     };
     const fetchTask = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/task?stage=${status}`, config);
+        // const response = await axios.get(`http://localhost:5000/api/task?stage=${status}`, config);
+        const response = await axios.get(
+          `https://task-manager-steel-delta.vercel.app/api/task?stage=${status}`,
+          config
+        );
         dispatch(setTasks(response.data.tasks));
         setLoading(false);
       } catch (error) {

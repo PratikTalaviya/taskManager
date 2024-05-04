@@ -40,7 +40,8 @@ const AddTask = ({ open, setOpen, task }) => {
     const { title, date } = data;
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/task/create",
+        // "http://localhost:5000/api/task/create",
+        "https://task-manager-steel-delta.vercel.app/api/task/create",
         {
           userId: user.id,
           title,
@@ -64,7 +65,8 @@ const AddTask = ({ open, setOpen, task }) => {
     const { title, date } = data;
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/task/update/${task._id}`,
+        // `http://localhost:5000/api/task/update/${task._id}`,
+        `https://task-manager-steel-delta.vercel.app/api/task/update/${task._id}`,
         {
           title,
           date,

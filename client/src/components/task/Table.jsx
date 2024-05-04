@@ -49,7 +49,8 @@ const Table = () => {
   const deleteHandler = async () => {
     try {
       console.log("deleted");
-      const response = await axios.put(`http://localhost:5000/api/task/${selected}`);
+      // const response = await axios.put(`http://localhost:5000/api/task/${selected}`);
+      const response = await axios.put(`https://task-manager-steel-delta.vercel.app/api/task/${selected}`);
       toast.success(response.data.message);
       setOpenDialog(false);
       dispatch(setReloadTask());

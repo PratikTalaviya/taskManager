@@ -47,7 +47,8 @@ const Trash = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/task?isTrashed=true", config);
+        // const response = await axios.get("http://localhost:5000/api/task?isTrashed=true", config);
+        const response = await axios.get("https://task-manager-steel-delta.vercel.app/api/task?isTrashed=true", config);
         dispatch(setTrashedTasks(response.data.tasks));
         setLoading(false);
       } catch (error) {
@@ -61,7 +62,8 @@ const Trash = () => {
     const deleteRestore = async () => {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/api/task/delete-restore/${selected}?actionType=${type}`,
+          // `http://localhost:5000/api/task/delete-restore/${selected}?actionType=${type}`,
+          `https://task-manager-steel-delta.vercel.app/api/task/delete-restore/${selected}?actionType=${type}`,
           config
         );
         setOpenDialog(false);

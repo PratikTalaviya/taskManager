@@ -10,6 +10,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 const Login = () => {
+  // const apiUrl = process.env.BACKEND_URL;
+  // console.log(apiUrl);
+
   const [registered, setRegistered] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const {
@@ -25,7 +28,8 @@ const Login = () => {
   const loginHandler = async (data) => {
     const { email, password } = data;
     try {
-      const response = await axios.post("http://localhost:5000/api/user/login", {
+      // const response = await axios.post("http://localhost:5000/api/user/login", {
+      const response = await axios.post("https://task-manager-steel-delta.vercel.app/api/user/login", {
         email,
         password,
       });
@@ -40,7 +44,8 @@ const Login = () => {
   const registerHandler = async (data) => {
     const { name, email, password } = data;
     try {
-      const response = await axios.post("http://localhost:5000/api/user/register", {
+      // const response = await axios.post("http://localhost:5000/api/user/register", {
+      const response = await axios.post("https://task-manager-steel-delta.vercel.app/api/user/register", {
         name,
         email,
         password,

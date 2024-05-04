@@ -24,7 +24,8 @@ const AddSubTask = ({ open, setOpen, id }) => {
 
   const handleOnSubmit = async (data) => {
     const { title, date, tag } = data;
-    console.log(`http://localhost:5000/api/task/create-subtask/${id}`);
+    // console.log(`http://localhost:5000/api/task/create-subtask/${id}`);
+    console.log(`https://task-manager-steel-delta.vercel.app/api/task/create-subtask/${id}`);
     try {
       const config = {
         headers: {
@@ -32,7 +33,8 @@ const AddSubTask = ({ open, setOpen, id }) => {
         },
       };
       const response = await axios.put(
-        `http://localhost:5000/api/task/create-subtask/${id}`,
+        // `http://localhost:5000/api/task/create-subtask/${id}`,
+        `https://task-manager-steel-delta.vercel.app/api/task/create-subtask/${id}`,
         {
           title,
           date,

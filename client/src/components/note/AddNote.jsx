@@ -37,7 +37,8 @@ const AddNote = ({ open, setOpen, note }) => {
     const { title, content } = data;
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/note/create",
+        // "http://localhost:5000/api/note/create",
+        "https://task-manager-steel-delta.vercel.app/api/note/create",
         {
           userId: user.id,
           title,
@@ -62,7 +63,8 @@ const AddNote = ({ open, setOpen, note }) => {
     const { title, content } = data;
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/note/update/${note._id}`,
+        // `http://localhost:5000/api/note/update/${note._id}`,
+        `https://task-manager-steel-delta.vercel.app/api/note/update/${note._id}`,
         {
           title,
           content,

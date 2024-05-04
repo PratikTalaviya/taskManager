@@ -34,7 +34,11 @@ const TaskDialog = ({ task }) => {
   };
   const duplicateHandler = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/task/duplicate/${task._id}`, config);
+      // const response = await axios.post(`http://localhost:5000/api/task/duplicate/${task._id}`, config);
+      const response = await axios.post(
+        `https://task-manager-steel-delta.vercel.app/api/task/duplicate/${task._id}`,
+        config
+      );
       toast.success(response.data.message);
       dispatch(setReloadTask());
     } catch (error) {
@@ -43,7 +47,8 @@ const TaskDialog = ({ task }) => {
   };
   const deleteHandler = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/task/${task._id}`, config);
+      // const response = await axios.put(`http://localhost:5000/api/task/${task._id}`, config);
+      const response = await axios.put(`https://task-manager-steel-delta.vercel.app/api/task/${task._id}`, config);
       toast.success(response.data.message);
       setOpenDialog(false);
       dispatch(setReloadTask());

@@ -42,7 +42,8 @@ const Notes = () => {
   useEffect(() => {
     const fetchNote = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/note", config);
+        // const response = await axios.get("http://localhost:5000/api/note", config);
+        const response = await axios.get("https://task-manager-steel-delta.vercel.app/api/note", config);
         dispatch(setNotes(response.data.notes));
         setLoading(false);
       } catch (error) {
@@ -55,7 +56,11 @@ const Notes = () => {
   const deleteHandler = async (noteId) => {
     console.log(noteId);
     try {
-      const response = await axios.delete(`http://localhost:5000/api/note/delete/${noteId}`, config);
+      // const response = await axios.delete(`http://localhost:5000/api/note/delete/${noteId}`, config);
+      const response = await axios.delete(
+        `https://task-manager-steel-delta.vercel.app/api/note/delete/${noteId}`,
+        config
+      );
       toast.success(response.data.message);
       setConfirmationOpen(false);
       dispatch(setReloadNote(!reloadNote));
