@@ -68,12 +68,12 @@ const Login = () => {
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6] ">
       <img
-        className="absolute bottom-[5vh] left-[5vw] rotate-4 lg:w-1/6 md:w-2/6 w-4/6  object-cover object-center rounded"
+        className="absolute hidden lg:block bottom-[5vh] left-[5vw] rotate-4 lg:w-1/6 md:w-2/6 w-4/6  object-cover object-center rounded"
         alt="hero"
         src="https://cdn3d.iconscout.com/3d/premium/thumb/test-result-verified-11032329-8842078.png?f=webp"
       />
       <img
-        className="absolute right-[40vw] bottom-[4vh] lg:w-1/6 md:w-2/6 w-4/6  object-cover object-center rounded"
+        className="hidden lg:block absolute right-[40vw] bottom-[4vh] lg:w-1/6 md:w-2/6 w-4/6  object-cover object-center rounded"
         alt="hero"
         src="https://cdn3d.iconscout.com/3d/premium/thumb/task-management-4721296-3931550.png?f=webp"
       />
